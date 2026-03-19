@@ -1,3 +1,91 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@layer base {
+    :root {
+        --background: 170 40% 98%;
+        --foreground: 180 40% 15%;
+        --card: 0 0% 100%;
+        --card-foreground: 180 40% 15%;
+        --popover: 0 0% 100%;
+        --popover-foreground: 180 40% 15%;
+        --primary: 171 100% 35%;
+        --primary-foreground: 0 0% 100%;
+        --secondary: 185 80% 94%;
+        --secondary-foreground: 185 90% 25%;
+        --muted: 170 20% 94%;
+        --muted-foreground: 180 15% 45%;
+        --accent: 190 100% 94%;
+        --accent-foreground: 190 100% 25%;
+        --destructive: 340 90% 60%;
+        --destructive-foreground: 0 0% 100%;
+        --border: 171 30% 88%;
+        --input: 171 30% 88%;
+        --ring: 171 100% 35%;
+        --success: 146 80% 40%;
+        --chart-1: 171 100% 35%;
+        --chart-2: 190 80% 45%;
+        --chart-3: 210 80% 55%;
+        --chart-4: 150 60% 50%;
+        --chart-5: 330 80% 65%;
+        --sidebar: 170 30% 97%;
+        --sidebar-foreground: 180 30% 25%;
+        --sidebar-primary: 171 100% 35%;
+        --sidebar-primary-foreground: 0 0% 100%;
+        --sidebar-accent: 185 60% 92%;
+        --sidebar-accent-foreground: 171 100% 25%;
+        --sidebar-border: 171 25% 90%;
+        --sidebar-ring: 171 100% 35%;
+        --priority-low: 142 73% 90%;
+        --priority-low-foreground: 146 68% 33%;
+        --priority-medium: 45 100% 90%;
+        --priority-medium-foreground: 35 91% 31%;
+        --priority-high: 10 100% 92%;
+        --priority-high-foreground: 6 71% 48%;
+    }
+
+    @media (prefers-color-scheme: dark) {
+        :root {
+            --background: 180 50% 4%;
+            --foreground: 170 20% 96%;
+            --card: 180 45% 7%;
+            --card-foreground: 170 20% 96%;
+            --popover: 180 45% 7%;
+            --popover-foreground: 170 20% 96%;
+            --primary: 171 90% 50%;
+            --primary-foreground: 180 50% 5%;
+            --secondary: 185 40% 15%;
+            --secondary-foreground: 185 90% 90%;
+            --muted: 180 30% 12%;
+            --muted-foreground: 170 10% 70%;
+            --accent: 190 50% 15%;
+            --accent-foreground: 190 90% 90%;
+            --destructive: 340 80% 45%;
+            --destructive-foreground: 0 0% 100%;
+            --border: 180 30% 18%;
+            --input: 180 30% 18%;
+            --ring: 171 90% 50%;
+            --success: 146 70% 52%;
+            --chart-1: 171 90% 50%;
+            --chart-2: 190 80% 55%;
+            --chart-3: 210 80% 65%;
+            --chart-4: 150 70% 55%;
+            --chart-5: 330 80% 70%;
+            --sidebar: 180 50% 3%;
+            --sidebar-foreground: 170 10% 90%;
+            --sidebar-primary: 171 90% 50%;
+            --sidebar-primary-foreground: 180 50% 5%;
+            --sidebar-accent: 185 30% 12%;
+            --sidebar-accent-foreground: 171 90% 95%;
+            --sidebar-border: 180 30% 12%;
+            --sidebar-ring: 171 90% 50%;
+            --priority-low: 147 36% 22%;
+            --priority-low-foreground: 137 56% 78%;
+            --priority-medium: 39 39% 23%;
+            --priority-medium-foreground: 45 88% 79%;
+            --priority-high: 8 35% 24%;
+            --priority-high-foreground: 8 86% 82%;
+        }
+    }
+}
