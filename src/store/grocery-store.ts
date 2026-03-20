@@ -1,4 +1,5 @@
 import { create } from "zustand";
+import { schedulePendingItemsReminder, cancelPendingItemsReminder } from "@/lib/notifications";
 
 export type GroceryCategory = "Produce" | "Dairy" | "Bakery" | "Pantry" | "Snacks";
 export type GroceryPriority = "low" | "medium" | "high";
@@ -47,6 +48,11 @@ export const useGroceryStore = create<GroceryStore>((set, get) => ({
 
             if (!res.ok) throw new Error(`Request failed (${res.status})`);
             set({ items: payload.items });
+            if (payload.items.some(i => !i.purchased)) {
+                schedulePendingItemsReminder();
+            } else {
+                cancelPendingItemsReminder();
+            }
         } catch (error) {
             console.error("Error loading items:", error);
             set({ error: "Something went wrong" });
@@ -72,6 +78,7 @@ export const useGroceryStore = create<GroceryStore>((set, get) => ({
             if (!res.ok) throw new Error(`Request failed (${res.status})`);
 
             set((state) => ({ items: [payload.item, ...state.items] }));
+            schedulePendingItemsReminder();
             return payload.item;
         } catch (error) {
             console.error("Error adding item:", error);
@@ -118,6 +125,11 @@ export const useGroceryStore = create<GroceryStore>((set, get) => ({
             set((state) => ({
                 items: state.items.map((item) => (item.id === id ? payload.item : item)),
             }));
+            if (get().items.some(i => !i.purchased)) {
+                schedulePendingItemsReminder();
+            } else {
+                cancelPendingItemsReminder();
+            }
         } catch (error) {
             console.error("Error toggling purchased:", error);
             set({ error: "Something went wrong" });
@@ -131,6 +143,11 @@ export const useGroceryStore = create<GroceryStore>((set, get) => ({
             if (!res.ok) throw new Error(`Request failed (${res.status})`);
 
             set((state) => ({ items: state.items.filter((item) => item.id !== id) }));
+            if (get().items.some(i => !i.purchased)) {
+                schedulePendingItemsReminder();
+            } else {
+                cancelPendingItemsReminder();
+            }
         } catch (error) {
             console.error("Error removing item:", error);
             set({ error: "Something went wrong" });
@@ -145,6 +162,11 @@ export const useGroceryStore = create<GroceryStore>((set, get) => ({
 
             const items = get().items.filter((item) => !item.purchased);
             set({ items });
+            if (items.some(i => !i.purchased)) {
+                schedulePendingItemsReminder();
+            } else {
+                cancelPendingItemsReminder();
+            }
         } catch (error) {
             console.error("Error clearing purchased:", error);
             set({ error: "Something went wrong" });

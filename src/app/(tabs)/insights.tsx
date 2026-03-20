@@ -1,21 +1,34 @@
-import { View, Text, StyleSheet } from 'react-native';
+import ClearCompletedButton from "@/components/insights/ClearCompletedButton";
+import InsightsCategorySection from "@/components/insights/InsightCategorySection";
+import InsightsPrioritySection from "@/components/insights/InsightPrioritySection";
+import InsightsStatsSection from "@/components/insights/InsightStatsSection";
+import SentryFeebackButton from "@/components/insights/SentryFeebackButton";
 
-export default function InsightsScreen() {
+import UserProfile from "@/components/insights/UserProfile";
+import TabScreenBackground from "@/components/TabScreenBackground";
+import { ScrollView } from "react-native";
+
+const InsightsScreen = () => {
     return (
-        <View style={styles.container}>
-            <Text style={styles.title}>Insights</Text>
-        </View>
-    );
-}
+        <>
+            <ScrollView
+                className="flex-1 bg-background py-4"
+                showsVerticalScrollIndicator={false}
+                contentContainerStyle={{ padding: 20, gap: 14 }}
+                contentInsetAdjustmentBehavior="automatic"
+            >
+                <TabScreenBackground />
 
-const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        alignItems: 'center',
-        justifyContent: 'center',
-    },
-    title: {
-        fontSize: 20,
-        fontWeight: 'bold',
-    },
-});
+                <UserProfile />
+                <InsightsStatsSection />
+                <InsightsCategorySection />
+                <InsightsPrioritySection />
+                <ClearCompletedButton />
+            </ScrollView>
+
+            <SentryFeebackButton />
+        </>
+    );
+};
+
+export default InsightsScreen;
