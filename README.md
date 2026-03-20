@@ -1,56 +1,75 @@
-# Welcome to your Expo app 👋
+# Grocify
 
-This is an [Expo](https://expo.dev) project created with [`create-expo-app`](https://www.npmjs.com/package/create-expo-app).
+Grocify is a cross-platform mobile application designed to streamline the grocery shopping experience. Built on modern React Native architecture and utilizing Expo Router, the application offers a performant, stable, and highly responsive user interface.
 
-## Get started
+## Core Features
 
-1. Install dependencies
+- **Cross-Platform Compatibility:** Native builds for both Android and iOS powered by the Expo framework.
+- **Secure Authentication:** Seamless and secure social authentication flows implemented via Clerk.
+- **Global State Management:** Persistent, globally accessible user and grocery list state utilizing Zustand.
+- **Intelligent Notifications:** Scheduled local background push notifications driven by Expo, featuring custom soft-prompt permission strategies to maximize user opt-in rates.
+- **Serverless Integration:** Full-stack data management connecting directly to a Neon Serverless Postgres database via Drizzle ORM.
+- **Modern User Interface:** Fully responsive design system implemented using NativeWind (Tailwind CSS) with strict adherence to global custom themes.
+- **Observability and Crash Reporting:** Real-time error monitoring and direct user feedback collection integrated natively through Sentry.
 
+## Tech Stack Overview
+
+- **Frontend Framework:** React Native, Expo, Expo Router
+- **State Management:** Zustand
+- **Styling:** NativeWind (Tailwind CSS)
+- **Authentication:** Clerk Expo
+- **Database Architecture:** Neon Postgres, Drizzle ORM
+- **Infrastructure & Monitoring:** Expo Notifications, Sentry
+
+## Getting Started
+
+### Prerequisites
+
+Ensure the following dependencies are installed prior to running the application:
+- Node.js (v18 or higher)
+- npm package manager
+- Expo CLI
+- Android Studio (for Android native compilation)
+
+### Installation
+
+1. Clone the repository and navigate to the project directory:
+   ```bash
+   git clone <repository-url>
+   cd Grocify
+   ```
+
+2. Install the necessary Node dependencies:
    ```bash
    npm install
    ```
 
-2. Start the app
+3. Configure Environment Variables:
+   Create a `.env` file in the root directory and populate it with the required keys:
+   - Clerk Publishable Key
+   - Neon Database URL
+   - Sentry DSN & Auth Token
 
-   ```bash
-   npx expo start
-   ```
+### Running the Application
 
-In the output, you'll find options to open the app in a
-
-- [development build](https://docs.expo.dev/develop/development-builds/introduction/)
-- [Android emulator](https://docs.expo.dev/workflow/android-studio-emulator/)
-- [iOS simulator](https://docs.expo.dev/workflow/ios-simulator/)
-- [Expo Go](https://expo.dev/go), a limited sandbox for trying out app development with Expo
-
-You can start developing by editing the files inside the **app** directory. This project uses [file-based routing](https://docs.expo.dev/router/introduction).
-
-## Get a fresh project
-
-When you're ready, run:
-
+To start the local development server with the Metro bundler:
 ```bash
-npm run reset-project
+npx expo start
 ```
 
-This command will move the starter code to the **app-example** directory and create a blank **app** directory where you can start developing.
+To compile and execute the application directly on an Android emulator or connected device:
+```bash
+npx expo run:android
+```
 
-### Other setup steps
+## Production Building
 
-- To set up ESLint for linting, run `npx expo lint`, or follow our guide on ["Using ESLint and Prettier"](https://docs.expo.dev/guides/using-eslint/)
-- If you'd like to set up unit testing, follow our guide on ["Unit Testing with Jest"](https://docs.expo.dev/develop/unit-testing/)
-- Learn more about the TypeScript setup in this template in our guide on ["Using TypeScript"](https://docs.expo.dev/guides/typescript/)
+To generate a standalone Release APK for Android locally:
+```bash
+npx expo run:android --variant release
+```
 
-## Learn more
-
-To learn more about developing your project with Expo, look at the following resources:
-
-- [Expo documentation](https://docs.expo.dev/): Learn fundamentals, or go into advanced topics with our [guides](https://docs.expo.dev/guides).
-- [Learn Expo tutorial](https://docs.expo.dev/tutorial/introduction/): Follow a step-by-step tutorial where you'll create a project that runs on Android, iOS, and the web.
-
-## Join the community
-
-Join our community of developers creating universal apps.
-
-- [Expo on GitHub](https://github.com/expo/expo): View our open source platform and contribute.
-- [Discord community](https://chat.expo.dev): Chat with Expo users and ask questions.
+Alternatively, utilize Expo Application Services (EAS) for seamless cloud compilation:
+```bash
+eas build -p android --profile preview
+```
