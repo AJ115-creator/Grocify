@@ -1,11 +1,13 @@
 import { useSSO } from "@clerk/expo";
 import { useState } from "react";
-import { Alert } from "react-native";
 import * as Linking from "expo-linking";
 
 const useSocialAuth = () => {
     const [loadingStrategy, setLoadingStrategy] = useState<string | null>(null);
+    const [alertConfig, setAlertConfig] = useState({ visible: false, title: "", message: "" });
     const { startSSOFlow } = useSSO();
+
+    const closeAlert = () => setAlertConfig(prev => ({ ...prev, visible: false }));
 
     const handleSocialAuth = async (strategy: "oauth_google" | "oauth_github" | "oauth_apple") => {
         if (loadingStrategy) return; // guard against concurrent flows of login
@@ -16,17 +18,17 @@ const useSocialAuth = () => {
                 redirectUrl: Linking.createURL('/')
             });
             if (!createdSessionId || !setActive) {
-                Alert.alert("Sign-in incomplete", "Sign-in did not complete. Please try again.");
+                setAlertConfig({ visible: true, title: "Sign-in incomplete", message: "Sign-in did not complete. Please try again." });
                 return
             }
             await setActive({ session: createdSessionId })
         } catch (error) {
             console.log("Error in social auth:", error);
-            Alert.alert("Error", "Failed to sign-in. Please Try again.")
+            setAlertConfig({ visible: true, title: "Error", message: "Failed to sign-in. Please Try again." });
         } finally {
             setLoadingStrategy(null)
         }
     }
-    return { handleSocialAuth, loadingStrategy };
+    return { handleSocialAuth, loadingStrategy, alertConfig, closeAlert };
 }
 export default useSocialAuth;

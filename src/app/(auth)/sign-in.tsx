@@ -7,9 +7,10 @@ import { SafeAreaView } from 'react-native-safe-area-context'
 import { Pressable, Text, View } from 'react-native'
 import { Image } from 'expo-image'
 import { FontAwesome, FontAwesome6 } from "@expo/vector-icons"
+import CustomAlert from '@/components/CustomAlert'
 
 export default function SignInScreen() {
-    const { handleSocialAuth, loadingStrategy } = useSocialAuth()
+    const { handleSocialAuth, loadingStrategy, alertConfig, closeAlert } = useSocialAuth()
     const isGoogleClicked = loadingStrategy === 'oauth_google'
     const isAppleClicked = loadingStrategy === 'oauth_apple'
     const isGithubClicked = loadingStrategy === 'oauth_github'
@@ -101,6 +102,12 @@ export default function SignInScreen() {
                     By continuing, you agree to our Terms and Privacy Policy
                 </Text>
             </View>
+            <CustomAlert 
+                visible={alertConfig.visible}
+                title={alertConfig.title}
+                message={alertConfig.message}
+                onClose={closeAlert}
+            />
         </SafeAreaView>
     );
 }
