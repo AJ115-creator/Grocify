@@ -4,7 +4,7 @@
 
 **AI-Powered Smart Grocery Management App**
 
-A full-stack cross-platform mobile application that combines intelligent grocery list management with an AI conversational agent, voice input, real-time analytics, and smart notifications — built with React Native, FastAPI, and LangChain.
+A full-stack cross-platform mobile application that combines intelligent grocery list management with an AI conversational agent, voice input, real-time analytics, and smart notifications — built with React Native, FastAPI, LangChain, and Clerk.
 
 [![React Native](https://img.shields.io/badge/React_Native-0.83-61DAFB?logo=react&logoColor=white)](https://reactnative.dev/)
 [![Expo](https://img.shields.io/badge/Expo-55-000020?logo=expo&logoColor=white)](https://expo.dev/)
@@ -12,6 +12,7 @@ A full-stack cross-platform mobile application that combines intelligent grocery
 [![LangChain](https://img.shields.io/badge/LangChain-1.2-1C3C3C?logo=langchain&logoColor=white)](https://langchain.com/)
 [![TypeScript](https://img.shields.io/badge/TypeScript-5.3-3178C6?logo=typescript&logoColor=white)](https://typescriptlang.org/)
 [![PostgreSQL](https://img.shields.io/badge/Neon_PostgreSQL-Serverless-4169E1?logo=postgresql&logoColor=white)](https://neon.tech/)
+[![Clerk](https://img.shields.io/badge/Clerk-Auth-6C47FF?logo=clerk&logoColor=white)](https://clerk.com/)
 
 </div>
 
@@ -264,6 +265,6 @@ Grocify/
 
 <div align="center">
 
-**Built with React Native + FastAPI + LangChain**
+**Built with React Native + FastAPI + LangChain + Clerk**
 
 </div>
