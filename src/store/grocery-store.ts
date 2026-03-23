@@ -1,5 +1,6 @@
 import { create } from "zustand";
 import { schedulePendingItemsReminder, cancelPendingItemsReminder } from "@/lib/notifications";
+import * as groceryApi from "@/services/grocery-api";
 
 export type GroceryCategory = "Produce" | "Dairy" | "Bakery" | "Pantry" | "Snacks";
 export type GroceryPriority = "low" | "medium" | "high";
@@ -43,12 +44,9 @@ export const useGroceryStore = create<GroceryStore>((set, get) => ({
     loadItems: async () => {
         set({ isLoading: true, error: null });
         try {
-            const res = await fetch("/api/items");
-            const payload = (await res.json()) as ItemsResponse;
-
-            if (!res.ok) throw new Error(`Request failed (${res.status})`);
-            set({ items: payload.items });
-            if (payload.items.some(i => !i.purchased)) {
+            const items = await groceryApi.fetchGroceryItems();
+            set({ items });
+            if (items.some(i => !i.purchased)) {
                 schedulePendingItemsReminder();
             } else {
                 cancelPendingItemsReminder();
@@ -64,22 +62,10 @@ export const useGroceryStore = create<GroceryStore>((set, get) => ({
     addItem: async (input) => {
         set({ error: null });
         try {
-            const res = await fetch("/api/items", {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({
-                    name: input.name,
-                    category: input.category,
-                    quantity: Math.max(1, input.quantity),
-                    priority: input.priority,
-                }),
-            });
-            const payload = (await res.json()) as ItemResponse;
-            if (!res.ok) throw new Error(`Request failed (${res.status})`);
-
-            set((state) => ({ items: [payload.item, ...state.items] }));
+            const item = await groceryApi.createGroceryItem(input);
+            set((state) => ({ items: [item, ...state.items] }));
             schedulePendingItemsReminder();
-            return payload.item;
+            return item;
         } catch (error) {
             console.error("Error adding item:", error);
             set({ error: "Something went wrong" });
@@ -90,15 +76,9 @@ export const useGroceryStore = create<GroceryStore>((set, get) => ({
         set({ error: null });
 
         try {
-            const res = await fetch(`/api/items/${id}`, {
-                method: "PATCH",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ quantity: nextQuantity }),
-            });
-            const payload = (await res.json()) as ItemResponse;
-            if (!res.ok) throw new Error(`Request failed (${res.status})`);
+            const updatedItem = await groceryApi.updateGroceryQuantity(id, nextQuantity);
             set((state) => ({
-                items: state.items.map((item) => (item.id === id ? payload.item : item)),
+                items: state.items.map((item) => (item.id === id ? updatedItem : item)),
             }));
         } catch (error) {
             console.error("Error updating quantity:", error);
@@ -113,17 +93,9 @@ export const useGroceryStore = create<GroceryStore>((set, get) => ({
         const nextPurchased = !currentItem.purchased;
         set({ error: null });
         try {
-            const res = await fetch(`/api/items/${id}`, {
-                method: "PATCH",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ purchased: nextPurchased }),
-            });
-
-            const payload = (await res.json()) as ItemResponse;
-            if (!res.ok) throw new Error(`Request failed (${res.status})`);
-
+            const updatedItem = await groceryApi.updateGroceryPurchased(id, nextPurchased);
             set((state) => ({
-                items: state.items.map((item) => (item.id === id ? payload.item : item)),
+                items: state.items.map((item) => (item.id === id ? updatedItem : item)),
             }));
             if (get().items.some(i => !i.purchased)) {
                 schedulePendingItemsReminder();
@@ -139,9 +111,7 @@ export const useGroceryStore = create<GroceryStore>((set, get) => ({
     removeItem: async (id) => {
         set({ error: null });
         try {
-            const res = await fetch(`/api/items/${id}`, { method: "DELETE" });
-            if (!res.ok) throw new Error(`Request failed (${res.status})`);
-
+            await groceryApi.deleteGroceryItem(id);
             set((state) => ({ items: state.items.filter((item) => item.id !== id) }));
             if (get().items.some(i => !i.purchased)) {
                 schedulePendingItemsReminder();
@@ -157,9 +127,7 @@ export const useGroceryStore = create<GroceryStore>((set, get) => ({
     clearPurchased: async () => {
         set({ error: null });
         try {
-            const res = await fetch("/api/items/clear-purchased", { method: "POST" });
-            if (!res.ok) throw new Error(`Request failed (${res.status})`);
-
+            await groceryApi.clearPurchasedItems();
             const items = get().items.filter((item) => !item.purchased);
             set({ items });
             if (items.some(i => !i.purchased)) {

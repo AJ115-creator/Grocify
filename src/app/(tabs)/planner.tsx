@@ -1,13 +1,17 @@
 import PlannerFormCard from "@/components/planner/PlannerFormCard";
 import PlannerHeroImage from "@/components/planner/PlannerHeroImage";
 import TabScreenBackground from "@/components/TabScreenBackground";
+import AIAgentFAB from "@/components/ai-agent/AIAgentFAB";
+import AIAgentModalLoader from "@/components/ai-agent/AIAgentModalLoader";
 import { useGroceryStore } from "@/store/grocery-store";
 import { FontAwesome6 } from "@expo/vector-icons";
+import { useState } from "react";
 import { Text, View } from "react-native";
 import { KeyboardAwareScrollView } from "react-native-keyboard-controller";
 
 const PlannerScreen = () => {
     const { items } = useGroceryStore();
+    const [showAIModal, setShowAIModal] = useState(false);
 
     const pendingCount = items.filter((item) => !item.purchased).length;
     const highPriorityCount = items.filter(
@@ -84,6 +88,10 @@ const PlannerScreen = () => {
             </View>
 
             <PlannerFormCard />
+
+            <AIAgentFAB onPress={() => setShowAIModal(true)} />
+
+            <AIAgentModalLoader visible={showAIModal} onClose={() => setShowAIModal(false)} />
         </KeyboardAwareScrollView>
     );
 };

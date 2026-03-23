@@ -16,7 +16,8 @@
         "foregroundImage": "./assets/images/grocify.png"
       },
       "predictiveBackGestureEnabled": false,
-      "package": "com.ayush115.Grocify"
+      "package": "com.ayush115.Grocify",
+      "softwareKeyboardLayoutMode": "pan"
     },
     "web": {
       "favicon": "./assets/images/favicon.png"
@@ -24,6 +25,13 @@
     "plugins": [
       "@clerk/expo",
       "expo-router",
+      [
+        "@jamsch/expo-speech-recognition",
+        {
+          "microphonePermission": "Allow Grocify to access your microphone for voice commands.",
+          "speechRecognitionPermission": "Allow Grocify to use speech recognition for voice input."
+        }
+      ],
       [
         "expo-splash-screen",
         {
